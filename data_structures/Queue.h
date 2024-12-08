@@ -29,15 +29,18 @@ public:
         rear = newNode;
     }
 
-    void dequeue() {
+    T dequeue() {
         if (front) {
             Node<T>* temp = front;
+            T value = front->val;
             front = front->next;
             delete temp;
             if (!front) {
                 rear = nullptr;
             }
+            return value;
         }
+        throw runtime_error("Queue is empty");
     }
 
     T peek() const {
@@ -59,4 +62,5 @@ public:
 };
 
 #endif
+
 
