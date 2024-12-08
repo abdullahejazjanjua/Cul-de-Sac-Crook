@@ -1,22 +1,26 @@
 #ifndef QUEUE_H
 #define QUEUE_H
 
+#include<iostream>
+using namespace std;
+
+template <typename T>
+struct Node {
+    T val;
+    Node* next;
+};
+
 template <typename T>
 class Queue {
 private:
-    struct Node {
-        T data;
-        Node* next;
-        Node(T value) : data(value), next(nullptr) {}
-    };
-    Node* front;
-    Node* rear;
+    Node<T> *front;
+    Node<T> *rear;
 
 public:
     Queue() : front(nullptr), rear(nullptr) {}
-    
+
     void enqueue(const T& value) {
-        Node* newNode = new Node(value);
+        Node<T>* newNode = new Node<T>{value, nullptr};
         if (rear) {
             rear->next = newNode;
         } else {
@@ -27,7 +31,7 @@ public:
 
     void dequeue() {
         if (front) {
-            Node* temp = front;
+            Node<T>* temp = front;
             front = front->next;
             delete temp;
             if (!front) {
@@ -38,9 +42,9 @@ public:
 
     T peek() const {
         if (front) {
-            return front->data;
+            return front->val; 
         }
-        throw std::runtime_error("Queue is empty");
+        throw runtime_error("Queue is empty");
     }
 
     bool isEmpty() const {
@@ -55,3 +59,4 @@ public:
 };
 
 #endif
+
