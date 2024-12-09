@@ -3,38 +3,41 @@
 
 #include <iostream>
 #include <unordered_map>
-#include "Queue.h"
+#include <string>
+#include <queue>
 using namespace std;
 
 template <typename T>
-struct Node {
+struct Node_graph {
     T val;
-    Node *next;
-    Node(T value) : val(value), next(nullptr) {}
+    Node_graph* next;
+    Node_graph(T value) : val(value), next(nullptr) {}
 };
 
 template <typename T>
 class Graph {
 private:
-    unordered_map<T, Node<T>*> list;
+    unordered_map<string, Node_graph<T>*> list; // Keyed by a unique string identifier (e.g., name)
 
 public:
     Graph() {}
 
-    void addEdge(T u, T v) {
-        Node<T>* newNode = new Node<T>(v);
-        newNode->next = list[u];
-        list[u] = newNode;
+    void addEdge(const string& uKey, T uVal, const string& vKey, T vVal) {
+        // Add edge from u to v
+        Node_graph<T>* newNode = new Node_graph<T>(vVal);
+        newNode->next = list[uKey];
+        list[uKey] = newNode;
 
-        newNode = new Node<T>(u);
-        newNode->next = list[v];
-        list[v] = newNode;
+        // Add edge from v to u (undirected graph)
+        newNode = new Node_graph<T>(uVal);
+        newNode->next = list[vKey];
+        list[vKey] = newNode;
     }
 
     void printGraph() const {
         for (const auto& pair : list) {
             cout << "Vertex " << pair.first << ": ";
-            Node<T>* temp = pair.second;
+            Node_graph<T>* temp = pair.second;
             while (temp) {
                 cout << temp->val << " -> ";
                 temp = temp->next;
@@ -43,25 +46,26 @@ public:
         }
     }
 
-    void BFS(T start) {
-        unordered_map<T, bool> visited;
-        Queue<T> q;
+    void BFS(const string& startKey) {
+        unordered_map<string, bool> visited;
+        queue<string> q;
 
-        visited[start] = true;
-        q.enqueue(start);
+        visited[startKey] = true;
+        q.push(startKey);
 
-        cout << "BFS starting from vertex " << start << ": ";
+        cout << "BFS starting from vertex " << startKey << ": ";
 
-        while (!q.isEmpty()) {
-            T vertex = q.dequeue();
-            cout << vertex << " ";
+        while (!q.empty()) {
+            string currentKey = q.front();
+            q.pop();
+            cout << currentKey << " ";
 
-            Node<T>* temp = list[vertex];
+            Node_graph<T>* temp = list[currentKey];
             while (temp) {
-                T adjVertex = temp->val;
-                if (!visited[adjVertex]) {
-                    visited[adjVertex] = true;
-                    q.enqueue(adjVertex);
+                string adjKey = temp->val.getName(); // Assuming T has a `getName` function
+                if (!visited[adjKey]) {
+                    visited[adjKey] = true;
+                    q.push(adjKey);
                 }
                 temp = temp->next;
             }
@@ -69,21 +73,21 @@ public:
         cout << endl;
     }
 
-    void DFS(T start) {
-        unordered_map<T, bool> visited;
-        DFSHelper(start, visited);
+    void DFS(const string& startKey) {
+        unordered_map<string, bool> visited;
+        DFSHelper(startKey, visited);
         cout << endl;
     }
 
-    void DFSHelper(T vertex, unordered_map<T, bool>& visited) {
-        visited[vertex] = true;
-        cout << vertex << " ";
+    void DFSHelper(const string& key, unordered_map<string, bool>& visited) {
+        visited[key] = true;
+        cout << key << " ";
 
-        Node<T>* temp = list[vertex];
+        Node_graph<T>* temp = list[key];
         while (temp) {
-            T adjVertex = temp->val;
-            if (!visited[adjVertex]) {
-                DFSHelper(adjVertex, visited);
+            string adjKey = temp->val.getName(); // Assuming T has a `getName` function
+            if (!visited[adjKey]) {
+                DFSHelper(adjKey, visited);
             }
             temp = temp->next;
         }
@@ -91,9 +95,9 @@ public:
 
     ~Graph() {
         for (auto& pair : list) {
-            Node<T>* temp = pair.second;
+            Node_graph<T>* temp = pair.second;
             while (temp) {
-                Node<T>* toDelete = temp;
+                Node_graph<T>* toDelete = temp;
                 temp = temp->next;
                 delete toDelete;
             }
@@ -102,3 +106,4 @@ public:
 };
 
 #endif
+

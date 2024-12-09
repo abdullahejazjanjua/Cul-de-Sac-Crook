@@ -1,7 +1,10 @@
-// Template for storing objects according to the house type
+#ifndef NODE_INFO_H
+#define NODE_INFO_H
 
 template <typename T>
-struct Node 
+struct obj
 {
     T val;
 };
+
+#endif
