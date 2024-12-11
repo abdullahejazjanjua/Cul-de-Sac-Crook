@@ -5,41 +5,49 @@
 using namespace std;
 
 template <typename T>
-struct Node {
+struct Node_stack 
+{
     T val;
-    Node* next;
+    Node_stack* next;
 };
 
 template <typename T>
-class Stack {
-    Node<T>* head;
+class Stack 
+{
+    Node_stack<T>* head;
 
 public:
-    Stack() {
+    Stack() 
+    {
         head = nullptr;
     }
 
-    void push(T val) {
-        Node<T>* newNode = new Node<T>;
+    void push(T val) 
+    {
+        Node_stack<T>* newNode = new Node_stack<T>;
         newNode->val = val;
         newNode->next = head;
         head = newNode;
     }
 
-    void pop() {
-        if (head == nullptr) {
+    void pop() 
+    {
+        if (head == nullptr) 
+        {
             cout << "Stack is empty!" << endl;
             return;
         }
-        Node<T>* cur = head;
+        Node_stack<T>* cur = head;
         head = head->next;
         delete cur;
     }
 
-    void display() {
-        Node<T>* cur = head;
+    void display() 
+    {
+        Node_stack<T>* cur = head;
         cout << endl;
-        while (cur != nullptr) {
+        while (cur != nullptr) 
+        {
             cout << cur->val << " ";
             cur = cur->next;
         }

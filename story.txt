@@ -10,17 +10,11 @@ Weights (optional): Assign weights to edges to represent distance or danger leve
 Algorithms:
 Shortest Path (e.g., Dijkstra's Algorithm): Determine optimal routes for police patrols or player escapes.
 Depth-First Search (DFS)/Breadth-First Search (BFS): Detect reachable locations, simulate resident movements, or identify high-risk zones.
+Once caught Use Dijkstra's algo to escape. Add a probabilty to make the player catchable and escapable
+
 2. Trees: Managing Resident and Crime Data
-Use Case: Organize hierarchical or relationship-based data, such as crime reports or resident profiles.
+Use Case: Store user info to easy access
 
-Implementation:
-
-Resident Profiles:
-Represent residents in a tree where parent nodes group residents by street or status (e.g., wealth tiers).
-
-Algorithms:
-In-Order Traversal: Retrieve crime reports in chronological order.
-Dynamic Tree Modifications: Update profiles as residents move or change status.
 
 3. Stack: Alert System
 Use Case: Store and resolve alerts for recent incidents.

@@ -7,14 +7,14 @@
 using namespace std;
 
 template <typename T>
-struct Node 
+struct Node_tree 
 {
     T val;
-    Node* left;
-    Node* right;
+    Node_tree* left;
+    Node_tree* right;
     int height;
 
-    Node(T value) {
+    Node_tree(T value) {
         val = value;
         left = right = nullptr;
         height = 1;
@@ -25,22 +25,22 @@ template <typename T>
 class AVL 
 {
 private:
-    Node<T>* root;
+    Node_tree<T>* root;
 
-    int getHeight(Node<T>* node) 
+    int getHeight(Node_tree<T>* node) 
     {
         return node ? node->height : 0;
     }
 
-    int getBalanceFactor(Node<T>* node) 
+    int getBalanceFactor(Node_tree<T>* node) 
     {
         return node ? getHeight(node->left) - getHeight(node->right) : 0;
     }
 
-    Node<T>* leftRotate(Node<T>* x) 
+    Node_tree<T>* leftRotate(Node_tree<T>* x) 
     {
-        Node<T>* y = x->right;
-        Node<T>* T2 = y->left;
+        Node_tree<T>* y = x->right;
+        Node_tree<T>* T2 = y->left;
 
         y->left = x;
         x->right = T2;
@@ -51,10 +51,10 @@ private:
         return y;
     }
 
-    Node<T>* rightRotate(Node<T>* y) 
+    Node_tree<T>* rightRotate(Node_tree<T>* y) 
     {
-        Node<T>* x = y->left;
-        Node<T>* T2 = x->right;
+        Node_tree<T>* x = y->left;
+        Node_tree<T>* T2 = x->right;
 
         x->right = y;
         y->left = T2;
@@ -65,16 +65,16 @@ private:
         return x;
     }
 
-    Node<T>* add(Node<T>* node, T val) 
+    Node_tree<T>* add(Node_tree<T>* node, T val) 
     {
-        if (!node) return new Node<T>(val);
+        if (!node) return new Node_tree<T>(val);
 
         if (val < node->val) 
         {
             node->left = add(node->left, val);
         } 
-        else if (val > node->val) {
-
+        else if (val > node->val) 
+        {
             node->right = add(node->right, val);
         }
 
@@ -104,7 +104,7 @@ private:
         return node;
     }
 
-    void preOrder(Node<T>* node) 
+    void preOrder(Node_tree<T>* node) 
     {
         if (!node) return;
         cout << node->val << " ";
@@ -112,7 +112,7 @@ private:
         preOrder(node->right);
     }
 
-    void inOrder(Node<T>* node) 
+    void inOrder(Node_tree<T>* node) 
     {
         if (!node) return;
         inOrder(node->left);
@@ -120,7 +120,7 @@ private:
         inOrder(node->right);
     }
 
-    void postOrder(Node<T>* node) 
+    void postOrder(Node_tree<T>* node) 
     {
         if (!node) return;
         postOrder(node->left);
@@ -128,7 +128,7 @@ private:
         cout << node->val << " ";
     }
 
-    Node<T>* deleteNode(Node<T>* node, T val) 
+    Node_tree<T>* deleteNode(Node_tree<T>* node, T val) 
     {
         if (!node) return node;
 
@@ -144,12 +144,12 @@ private:
         {
             if (!node->left || !node->right) 
             {
-                Node<T>* temp = node->left ? node->left : node->right;
+                Node_tree<T>* temp = node->left ? node->left : node->right;
                 delete node;
                 return temp;
             }
 
-            Node<T>* temp = inOrderPredecessor(node);
+            Node_tree<T>* temp = inOrderPredecessor(node);
             node->val = temp->val;
             node->left = deleteNode(node->left, temp->val);
         }
@@ -179,7 +179,7 @@ private:
         return node;
     }
 
-    Node<T>* inOrderPredecessor(Node<T>* node) 
+    Node_tree<T>* inOrderPredecessor(Node_tree<T>* node) 
     {
         node = node->left;
         while (node->right) {

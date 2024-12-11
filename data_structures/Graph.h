@@ -7,26 +7,26 @@
 using namespace std;
 
 template <typename T>
-struct Node {
+struct Node_graph {
     T val;
-    Node *next;
-    Node(T value) : val(value), next(nullptr) {}
+    Node_graph* next;
+    Node_graph(T value) : val(value), next(nullptr) {}
 };
 
 template <typename T>
 class Graph {
 private:
-    unordered_map<T, Node<T>*> list;
+    unordered_map<T, Node_graph<T>*> list;
 
 public:
     Graph() {}
 
     void addEdge(T u, T v) {
-        Node<T>* newNode = new Node<T>(v);
+        Node_graph<T>* newNode = new Node_graph<T>(v);
         newNode->next = list[u];
         list[u] = newNode;
 
-        newNode = new Node<T>(u);
+        newNode = new Node_graph<T>(u);
         newNode->next = list[v];
         list[v] = newNode;
     }
@@ -34,7 +34,7 @@ public:
     void printGraph() const {
         for (const auto& pair : list) {
             cout << "Vertex " << pair.first << ": ";
-            Node<T>* temp = pair.second;
+            Node_graph<T>* temp = pair.second;
             while (temp) {
                 cout << temp->val << " -> ";
                 temp = temp->next;
@@ -56,7 +56,7 @@ public:
             T vertex = q.dequeue();
             cout << vertex << " ";
 
-            Node<T>* temp = list[vertex];
+            Node_graph<T>* temp = list[vertex];
             while (temp) {
                 T adjVertex = temp->val;
                 if (!visited[adjVertex]) {
@@ -79,7 +79,7 @@ public:
         visited[vertex] = true;
         cout << vertex << " ";
 
-        Node<T>* temp = list[vertex];
+        Node_graph<T>* temp = list[vertex];
         while (temp) {
             T adjVertex = temp->val;
             if (!visited[adjVertex]) {
@@ -91,9 +91,9 @@ public:
 
     ~Graph() {
         for (auto& pair : list) {
-            Node<T>* temp = pair.second;
+            Node_graph<T>* temp = pair.second;
             while (temp) {
-                Node<T>* toDelete = temp;
+                Node_graph<T>* toDelete = temp;
                 temp = temp->next;
                 delete toDelete;
             }
