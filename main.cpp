@@ -52,6 +52,13 @@ public:
     Non_Home nh;
     Queue<int> movements;
     Person() {}
+    Person(const Person& other) 
+    : name(other.name),
+      income(other.income),
+      weapon_level(other.weapon_level),
+      H(other.H),
+      nh(other.nh),
+      movements(other.movements) {}
     void set(string name, float income,int weapon_level=0, int house_id=0, float house_worth=0.0, int lock_level=0, string type="none", float worth=0.0)
     {
         this->income = income;
@@ -64,10 +71,15 @@ public:
     void display()
     {
         cout << endl;
-        cout << "Name: " << this->name;
-        cout << "\nHouse ID: " << this->H.house_id;
         cout << "\nMovements: ";
         this->movements.display();
+        cout << endl;
+    }
+
+    void print_details()
+    {
+        cout << "Name: " << name <<  " House id: " << H.house_id << " Income: " << income << " house_worth: " << H.house_worth << "Movements: ";
+        movements.display();
         cout << endl;
     }
 };
@@ -138,7 +150,6 @@ int main()
             P.movements.enqueue(stoi(loc03));
 
             Tree.insert(P, P.H.house_id);
-            P.display();
 
         }
     }

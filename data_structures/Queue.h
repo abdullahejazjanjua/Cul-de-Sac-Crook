@@ -19,6 +19,17 @@ private:
 public:
     Queue() : front(nullptr), rear(nullptr) {}
 
+    Queue(const Queue<T>& other) : front(nullptr), rear(nullptr) 
+    {
+        if (other.front != nullptr) {
+            Node_queue<T>* cur = other.front;
+            while (cur != nullptr) {
+                this->enqueue(cur->val); // Use enqueue to copy elements
+                cur = cur->next;
+            }
+        }
+    }
+
     void enqueue(const T& value) {
         Node_queue<T>* newNode = new Node_queue<T>{value, nullptr};
         if (rear) {
