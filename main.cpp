@@ -72,7 +72,8 @@ public:
     }
 };
 
-void make_graph(){
+void make_graph()
+{
     Graph G(10);
     G.addEdge(1,7);
     G.addEdge(7,6);
@@ -112,6 +113,7 @@ int main()
             stringstream ss(line);
             string name, house_id, income, house_worth, lock_level, type, type_worth, m;
 
+
             // Read CSV columns
             getline(ss, name, ',');
             getline(ss, house_id, ',');
@@ -143,3 +145,4 @@ int main()
     Tree.traverseTree();
 
 }
+
