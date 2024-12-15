@@ -8,7 +8,8 @@ using namespace std;
 
 template <typename T>
 
-struct Node_tree {
+struct Node_tree 
+{
     T obj; // The object storing details
     int key;
     Node_tree* left;
@@ -91,6 +92,30 @@ private:
         return node;
     }
 
+    Node_tree<T>* retrieveResident(Node_tree<T>* node, int key) 
+    {
+        if (node == NULL) 
+        {
+            return NULL; // Not found
+        }
+
+        if (node->key == key) 
+        {
+            return node; // Node found
+        }
+
+        if (key < node->key) 
+        {
+            return retrieveResident(node->left, key); 
+        } 
+        else 
+        {
+            return retrieveResident(node->right, key);  
+        }
+    }
+
+   
+
 
     void preOrder(Node_tree<T>* node) 
     {
@@ -99,8 +124,6 @@ private:
         preOrder(node->left);
         preOrder(node->right);
     }
-
-
 
     Node_tree<T>* deleteNode(Node_tree<T>* node, int key) 
     {
@@ -181,6 +204,18 @@ public:
     {
         root = deleteNode(root, key);
     }
+    void getResidentInfo(int key) 
+    {
+        Node_tree<T>* result = retrieveResident(root, key);
+        if (result) {
+            result->obj.introduceNeightbour();
+        } 
+        else 
+        {
+            cout << "\nSeems like you have gone out of this neighbourhood\n";
+        }
+    }
+
 };
 
 #endif

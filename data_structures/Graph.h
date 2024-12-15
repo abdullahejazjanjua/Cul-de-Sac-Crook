@@ -1,8 +1,7 @@
 #ifndef GRAPH_H
 #define GRAPH_H
-
-#include <iostream>
 #include "Queue.h"
+#include <iostream>
 using namespace std;
 
 struct Node_graph {
@@ -12,12 +11,10 @@ struct Node_graph {
 };
 
 class Graph {
-private:
-
-    Node_graph** adjacencyList;
-    int size;
 
 public:
+    Node_graph** adjacencyList;
+    int size;
     Graph(int vertices) {
         size = vertices;
         adjacencyList = new Node_graph*[size];
@@ -48,19 +45,21 @@ public:
         }
     }
 
-    void BFS(int start) {
+    int * BFS(int start) 
+    {
         bool* visited = new bool[size]();
         Queue<int> q;
+        int *houses = new int[size];
 
         visited[start] = true;
         q.enqueue(start);
 
-        cout << "BFS starting from vertex " << start << ": ";
-
-        while (!q.isEmpty()) {
+        int i = 0;
+        while (!q.isEmpty()) 
+        {
             int vertex = q.dequeue();
-            cout << vertex << " ";
-
+            houses[i] = vertex;
+            
 
             Node_graph* temp = adjacencyList[vertex];
             while (temp) {
@@ -71,9 +70,10 @@ public:
                 }
                 temp = temp->next;
             }
+            i++;
         }
-        cout << endl;
         delete[] visited;
+        return houses;
     }
 
     void DFS(int start) {
@@ -113,4 +113,3 @@ public:
 };
 
 #endif
-
