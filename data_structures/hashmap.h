@@ -51,12 +51,14 @@ public:
 
     // Display all entries
     void display() const {
-        cout << setw(10) << "Name" << setw(10) << "Loot" << endl;
-        cout << "---------------------" << endl;
-        for (int i = 0; i < count; ++i) {
-            cout << setw(10) << keys[i] << setw(10) << values[i] << endl;
-        }
+    cout << setw(20) << "Name" << setw(15) << "Loot" << endl;
+    cout << "----------------------------" << endl;
+    
+    // Display the leaderboard
+    for (int i = 0; i < count; ++i) {
+        cout << setw(20) << keys[i] << setw(15) << values[i] << endl;
     }
+}
 
     // Find value by key
     int find(const string& key) const {
