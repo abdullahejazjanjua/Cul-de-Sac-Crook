@@ -53,7 +53,7 @@ public:
     }
 };
 
-void typeText(const string& text, int delayMs = 75) 
+void typeText(const string& text, int delayMs = 0) 
 {
     for (char c : text) 
     {
@@ -472,7 +472,7 @@ void end_game(AVL<Person> &Tree, Person &Player)
         
         char randomKey = static_cast<char>(randomInt(97, 122)); 
         
-        int timeLimit = 1;  
+        int timeLimit = 3;  
 
         typeText("Press the key: *" + std::string(1, randomKey) + "* within " + std::to_string(timeLimit) + " seconds!", 0);
 
