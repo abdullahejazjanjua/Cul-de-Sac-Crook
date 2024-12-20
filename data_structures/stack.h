@@ -48,9 +48,20 @@ public:
     }
 
     void display() 
+{
+    Node_stack<T>* cur = head;
+
+    cout << "\n======================================" << endl;
+    cout << "         Player's Robbery Levels      " << endl;
+    cout << "======================================" << endl;
+
+    if (cur == nullptr) 
     {
-        Node_stack<T>* cur = head;
-        cout << endl;
+        cout << "No robberies recorded yet!" << endl;
+    } 
+    else 
+    {
+        cout << "Robbery Levels: ";
         while (cur != nullptr) 
         {
             cout << cur->val << " ";
@@ -58,6 +69,10 @@ public:
         }
         cout << endl;
     }
+
+    cout << "======================================" << endl;
+}
+
 
     int size() 
     {
@@ -73,21 +88,15 @@ public:
 
     void sortedInsert(T val)
     {
-        // If the stack is empty or the value is greater than the top, push the value
         if (head == nullptr || head->val <= val) 
         {
             push(val);
         } 
         else 
         {
-            // Pop the top element
             T temp = head->val;
             pop();
-
-            // Recursively insert the value
             sortedInsert(val);
-
-            // Push the popped element back
             push(temp);
         }
     }
@@ -99,14 +108,9 @@ public:
             return;
         }
 
-        // Pop the top element
         T top = head->val;
         pop();
-
-        // Sort the remaining stack
         sortStack();
-
-        // Insert the popped element in the sorted stack
         sortedInsert(top);
     }
 };

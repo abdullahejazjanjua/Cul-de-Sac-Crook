@@ -16,8 +16,11 @@
 #include <cstdlib>
 #include "data_structures/hashmap.h"
 #include "data_structures/linked_list.h"
+#include <mmsystem.h>
+#include <conio.h>
 
 
+#pragma comment(lib, "winmm.lib")
 class house
 {
 public:
@@ -135,7 +138,7 @@ public:
                 typeText("Income: $" + to_string(income) + "\n");
                 Sleep(500);
 
-                typeText("You ring the doorbell. *Ding Dong!*\n");
+                typeText("You ring the doorbell. Ding Dong!\n");
                 Sleep(500);
 
                 typeText(name + " greets you warmly. You have a brief chat about the neighbourhood.\n");
@@ -320,7 +323,20 @@ Queue<int> Move_player(Graph &G, AVL<Person> T, Person &Player, Stack<int> &aler
     while (true)
     {
         typeText("You stand at the edge of the street, scanning the rows of dark houses.\nWhich house will you target? Choose wisely, for fortune favors the bold... \n");
-        cin >> choice;
+        try 
+        {
+            
+            cin >> choice;
+            if (cin.fail()) 
+            {
+                throw invalid_argument("Invalid input! Please enter an integer.");
+            }
+        }
+        catch (const invalid_argument& e) 
+        {
+            cerr << e.what() << endl;
+            cin.clear();
+        }
         if (choice == 4)
         {
             typeText("What thief steals his own house? This much greed is not good! Try again\n");
@@ -367,7 +383,7 @@ Queue<int> Move_player(Graph &G, AVL<Person> T, Person &Player, Stack<int> &aler
         return q;  
     }
 
-    typeText("\nYou check your notes. This house belongs to **" + person->obj.name + "**.\n");
+    typeText("\nYou check your notes. This house belongs to *" + person->obj.name + "*.\n");
     typeText("\nIts value is high. There's no room for mistakes tonight.\n");
 
     while (true)
@@ -458,7 +474,7 @@ void end_game(AVL<Person> &Tree, Person &Player)
         
         int timeLimit = 1;  
 
-        typeText("Press the key: **" + std::string(1, randomKey) + "** within " + std::to_string(timeLimit) + " seconds!", 0);
+        typeText("Press the key: *" + std::string(1, randomKey) + "* within " + std::to_string(timeLimit) + " seconds!", 0);
 
         auto start_time = std::chrono::steady_clock::now();
         bool keyPressed = false;
@@ -586,9 +602,23 @@ void writeLeaderBoard(const string& name, int loot)
     file.close();
 }
 
+void playMusic(const char* filePath)
+{
+    mciSendStringW(L"stop mp3", NULL, 0, NULL);
+    mciSendStringW(L"close mp3", NULL, 0, NULL);
+
+ 
+    wstring wideFilePath;
+    wideFilePath.assign(filePath, filePath + strlen(filePath));
+    mciSendStringW((L"open \"" + wideFilePath + L"\" type mpegvideo alias mp3").c_str(), NULL, 0, NULL);
+
+    mciSendStringW(L"play mp3", NULL, 0, NULL);
+}
+
 
 int main()
 {
+    playMusic("song.mp3");
     ifstream file("residents.csv");
     string line;
     AVL<Person> Tree;
@@ -672,6 +702,9 @@ int main()
     hashMap.insert(Player.name, Player.loot);
     writeLeaderBoard(Player.name, Player.loot);
     cout << endl;
+    Sleep(2000);
+    system("cls");
+    alert.display();
     hashMap.display();
 
     return 0;
