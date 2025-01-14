@@ -20,7 +20,7 @@
 #include <conio.h>
 
 
-#pragma comment(lib, "winmm.lib")
+// #pragma comment(lib, "winmm.lib")
 class house
 {
 public:
@@ -53,7 +53,7 @@ public:
     }
 };
 
-void typeText(const string& text, int delayMs = 0) 
+void typeText(const string& text, int delayMs = 35) 
 {
     for (char c : text) 
     {
@@ -226,7 +226,7 @@ void visit_neighbours(Graph& G, AVL<Person>& Tree, int startNode)
 }
 
 
-void run_game(AVL<Person> Tree, Person &Player)
+bool run_game(AVL<Person> Tree, Person &Player)
 {
    system("cls");
 
@@ -250,7 +250,7 @@ void run_game(AVL<Person> Tree, Person &Player)
     else 
     {
         typeText("Oh no! Without a house, you can't stay in the neighbourhood. Game over.\n");
-        return;
+        return false;
     }
     typeText("\n");
     typeText("With no money left, you need to find a way to make some cash.\n");
@@ -277,6 +277,7 @@ void run_game(AVL<Person> Tree, Person &Player)
     Player.movements.enqueue(5);
     Player.movements.enqueue(0);
     Tree.insert(Player, Player.H.house_id);
+    return true;
 }
 
 
@@ -304,7 +305,7 @@ Queue<int> Move_player(Graph &G, AVL<Person> T, Person &Player, Stack<int> &aler
     system("cls");
     if (day == 1)
     {
-        typeText("The city is quiet, and the air feels dense. It's your first night in this strange place. The tension builds, but you're ready for what’s coming...\n");
+        typeText("The city is quiet, and the air feels dense. It's your first night in this strange place. The tension builds, but you're ready for what's coming...\n");
     }
     else if (day == random_thefts)
     {
@@ -472,7 +473,7 @@ void end_game(AVL<Person> &Tree, Person &Player)
         
         char randomKey = static_cast<char>(randomInt(97, 122)); 
         
-        int timeLimit = 3;  
+        int timeLimit = 2;  
 
         typeText("Press the key: *" + std::string(1, randomKey) + "* within " + std::to_string(timeLimit) + " seconds!", 0);
 
@@ -597,7 +598,7 @@ void writeLeaderBoard(const string& name, int loot)
         return;
     }
 
-    file << name << "," << loot << endl;
+    file << endl << name << "," << loot;
     file.flush();  
     file.close();
 }
@@ -612,7 +613,7 @@ void playMusic(const char* filePath)
     wideFilePath.assign(filePath, filePath + strlen(filePath));
     mciSendStringW((L"open \"" + wideFilePath + L"\" type mpegvideo alias mp3").c_str(), NULL, 0, NULL);
 
-    mciSendStringW(L"play mp3", NULL, 0, NULL);
+    mciSendStringW(L"play mp3 repeat", NULL, 0, NULL);
 }
 
 
@@ -664,8 +665,9 @@ int main()
     }
     file.close();
     Person Player;
-    run_game(Tree, Player);
-
+    bool result = run_game(Tree, Player);
+    if (!result)
+        return 0;
     Person market;
     market.set("Market", 0.0, 0, 5, 5000.0, 3, "Market", 5000.0);
     Tree.insert(market, market.H.house_id);
