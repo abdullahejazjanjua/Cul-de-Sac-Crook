@@ -59,7 +59,7 @@
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/yourusername/Cul-de-Sac-Crook.git
+   git clone https://github.com/abdullahejazjanjua/Cul-de-Sac-Crook.git
    ```
 2. Navigate to the project directory:
    ```bash
